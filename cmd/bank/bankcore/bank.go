@@ -1,6 +1,7 @@
 package bank
 
 import (
+    "fmt"
     "errors"
 )
 
@@ -40,6 +41,11 @@ func (a *Account) Withdraw(amount float64) error {
 
     a.Balance -= amount
     return nil
+}
+
+// Statement ...
+func (a *Account) Statement() string {
+    return fmt.Sprintf("%v - %v - %v", a.Number, a.Name, a.Balance)
 }
 
 func Hello() string {
