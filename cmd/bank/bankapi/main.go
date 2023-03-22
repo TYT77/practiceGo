@@ -2,6 +2,8 @@ package main
 
 import (
     "fmt"
+    "net/http"
+    "strconv"
 
     "bank"
 )
@@ -19,5 +21,25 @@ func main() {
         Number: 1001,
     }
 
-    
+
+}
+
+func statement(w http.ResponseWriter, req *http.Request) {
+    numberqs := req.URL.Query().Get("number")
+
+    if numberqs == "" {
+        fmt.Fprintf(w, "Account number is missing!")
+        return
+    }
+
+    if number, err := strconv.ParseFloat(numberqs, 64); err != nil {
+        fmt.Fprintf(w, "Invalid account number!")
+    } else {
+        account, ok := accounts[number]
+        if !ok {
+            fmt.Fprintf(w, "Account with number %v can't be found!", number)
+        } else {
+            fmt.Fprintf(w, account.Statement())
+        }
+    }
 }
