@@ -21,6 +21,16 @@ func main() {
         },
         Number: 1001,
     }
+    
+    accounts[1002] = &bank.Account{
+        Customer: bank.Customer{
+            Name:    "yukke",
+            Address: "Los Angeles, California",
+            Phone:   "(123) 456 7890",
+        },
+        Number: 1002,
+    }
+    
 
     // エンドポイントの設定
     http.HandleFunc("/statement", statement)
