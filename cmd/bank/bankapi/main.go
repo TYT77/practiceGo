@@ -27,7 +27,7 @@ func main() {
     http.HandleFunc("/deposit", deposit)
 
     // apiの公開
-    log.Fatal(http.ListenAndServe("localhost:8000", nil))
+    log.Fatal(http.ListenAndServe("localhost:8080", nil))
 
 }
 
