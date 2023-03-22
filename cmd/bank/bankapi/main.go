@@ -4,6 +4,7 @@ import (
     "fmt"
     "net/http"
     "strconv"
+    "log"
 
     "bank"
 )
@@ -21,6 +22,8 @@ func main() {
         Number: 1001,
     }
 
+    http.HandleFunc("/statement", statement)
+    log.Fatal(http.ListenAndServe("localhost:8000", nil))
 
 }
 
