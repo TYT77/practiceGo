@@ -4,7 +4,4 @@ RUN apk update && apk add git
 
 WORKDIR /go/src/cmd/
 
-CMD ["go", "mod", "init", "goDevEnv"]
-# CMD ["go", "run", "hello.go"]
-
 
