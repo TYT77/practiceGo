@@ -48,6 +48,24 @@ func (a *Account) Statement() string {
     return fmt.Sprintf("%v - %v - %v", a.Number, a.Name, a.Balance)
 }
 
+// Remittance ...
+func (a *Account) Transfer(amount float64, dest *Account) error {
+
+	if amount <= 0 {
+		return errors.New("I have less than zero money in my possession")
+	}
+
+	if a.Balance < amount {
+		return errors.New("I am trying to transfer more money than I have in my possession")
+	}
+
+    // 送金処理
+	a.Withdraw(amount)
+	dest.Deposit(amount)
+	
+    return nil
+}
+
 /*
 func Hello() string {
     return "Hey! I'm working!"
