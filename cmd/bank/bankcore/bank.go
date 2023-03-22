@@ -48,6 +48,8 @@ func (a *Account) Statement() string {
     return fmt.Sprintf("%v - %v - %v", a.Number, a.Name, a.Balance)
 }
 
+/*
 func Hello() string {
     return "Hey! I'm working!"
 }
+*/
