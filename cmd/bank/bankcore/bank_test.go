@@ -88,3 +88,38 @@ func TestStatement(t *testing.T) {
         t.Error("statement doesn't have the proper format")
     }
 }
+
+func TestRemittance(t *testing.T) {
+
+    account1 := Account{
+		Customer: Customer{
+			Name:    "John",
+			Address: "Los Angeles, California",
+			Phone:   "(213) 555 0147",
+		},
+		Number:  1001,
+		Balance: 0,
+	}
+
+	account2 := Account{
+		Customer: bank.Customer{
+            Name:    "yukke",
+            Address: "Los Angeles, California",
+            Phone:   "(123) 456 7890",
+        },
+        Number: 1002,
+		Balance: 0,
+	}
+
+    // 送金前のお金
+	account1.Deposit(1000)
+	
+    // 送金
+    err := account1.Remittance(500, &account2)
+
+    // 送金後に両方のアカウントが500ずつもっていない場合にエラー
+	if account1.Balance != 500 && account2.Balance != 500 {
+		t.Error("Remittance processing has failed.", err)
+	}
+    
+}
