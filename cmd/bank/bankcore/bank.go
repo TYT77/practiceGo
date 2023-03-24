@@ -19,6 +19,8 @@ type Account struct {
     Balance float64
 }
 
+// Accountクラスのメソッドを定義している?
+
 // Deposit ...
 func (a *Account) Deposit(amount float64) error {
     if amount <= 0 {
@@ -44,6 +46,7 @@ func (a *Account) Withdraw(amount float64) error {
 }
 
 // Statement ...
+// たぶん今後使わなくなる
 func (a *Account) Statement() string {
     return fmt.Sprintf("%v - %v - %v", a.Number, a.Name, a.Balance)
 }
@@ -64,6 +67,20 @@ func (a *Account) Transfer(amount float64, dest *Account) error {
 	dest.Deposit(amount)
 	
     return nil
+}
+
+// ここまで
+
+// インターフェイスの実装
+// Bank Interface
+type Bank interface {
+	Statement() string
+}
+
+// Bankインターフェイスをパラメーターとして受け取るメソッド
+func Statement(bank Bank) {
+    // Statementメソッドの呼び出しと値の返却
+	return bank.Statement()
 }
 
 /*

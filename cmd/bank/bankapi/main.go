@@ -9,28 +9,31 @@ import (
     "bank"
 )
 
-var accounts = map[float64]*bank.Account{}
+var accounts = map[float64]*EBank{}
 
 func main() {
     
-    accounts[1001] = &bank.Account{
-        Customer: bank.Customer{
-            Name:    "John",
-            Address: "Los Angeles, California",
-            Phone:   "(213) 555 0147",
-        },
-        Number: 1001,
+    accounts[1001] = &EBank{
+        Account: &bank.Account{
+            Customer: bank.Customer{
+                Name:    "John",
+                Address: "Los Angeles, California",
+                Phone:   "(213) 555 0147",
+            },
+            Number: 1001,
+        }
     }
-    
-    accounts[1002] = &bank.Account{
-        Customer: bank.Customer{
-            Name:    "yukke",
-            Address: "Los Angeles, California",
-            Phone:   "(123) 456 7890",
-        },
-        Number: 1002,
+
+    accounts[1002] = &EBank{
+        Account: &bank.Account{
+            Customer: bank.Customer{
+                Name:    "yukke",
+                Address: "Los Angeles, California",
+                Phone:   "(123) 456 7890",
+            },
+            Number: 1002,
+        }
     }
-    
 
     // エンドポイントの設定
     http.HandleFunc("/statement", statement)
@@ -58,6 +61,7 @@ func statement(w http.ResponseWriter, req *http.Request) {
         if !ok {
             fmt.Fprintf(w, "Account with number %v can't be found!", number)
         } else {
+            // json形式のデータを返すように修正
             fmt.Fprintf(w, account.Statement())
         }
     }
@@ -113,8 +117,29 @@ func withdraw(w http.ResponseWriter, req *http.Request) {
             if err != nil {
                 fmt.Fprintf(w, "%v", err)
             } else {
-                fmt.Fprintf(w, account.Statement())
+
+                // json形式で返却する
+                json.NewEncoder(w).Encode(bank.Statement(account))
+                
+                // 独自形式で返却する
+                // fmt.Fprintf(w, account.Statement())
             }
         }
     }
+}
+
+
+type EBank struct {
+    *bank.Account
+}
+
+func (eb *EBank) Statement() string {
+    
+    json, err := json.Marshal(eb)
+	if err != nil {
+		return err.Error()
+	}
+
+	return string(json)
+
 }
